@@ -1,6 +1,5 @@
-package com.project.simoneconigliaro.thecurrentnews.ui;
+package com.project.simoneconigliaro.thecurrentnews.data;
 
-import android.graphics.Movie;
 import android.os.Parcel;
 import android.os.Parcelable;
 

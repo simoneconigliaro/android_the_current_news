@@ -1,5 +1,6 @@
 package com.project.simoneconigliaro.thecurrentnews.ui;
 
+import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,12 @@ import android.os.Bundle;
 
 import com.project.simoneconigliaro.thecurrentnews.R;
 import com.project.simoneconigliaro.thecurrentnews.api.NetworkUtils;
+import com.project.simoneconigliaro.thecurrentnews.api.OpenArticleJsonUtils;
+import com.project.simoneconigliaro.thecurrentnews.data.Article;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,9 +42,5 @@ public class MainActivity extends AppCompatActivity {
         viewPagerAdapter.addFragment(new FavoriteNewsFragment(), FAVORITE_NEWS);
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
-
-        NetworkUtils.buildGlobalNewsURL();
-        NetworkUtils.buildLocalNewsURL("it");
-
     }
 }
