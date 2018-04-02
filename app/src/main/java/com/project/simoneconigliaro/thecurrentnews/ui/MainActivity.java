@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.project.simoneconigliaro.thecurrentnews.R;
+import com.project.simoneconigliaro.thecurrentnews.api.NetworkUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
         viewPagerAdapter.addFragment(new FavoriteNewsFragment(), FAVORITE_NEWS);
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+
+        NetworkUtils.buildGlobalNewsURL();
+        NetworkUtils.buildLocalNewsURL("it");
 
     }
 }
