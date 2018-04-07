@@ -20,8 +20,10 @@ public class NetworkUtils {
     private static String LOG_TAG = NetworkUtils.class.getSimpleName();
     final static String apiKey = BuildConfig.NEWS_API_KEY;
     final static String language = "en";
+    final static String sources = "the-new-york-times,bbc-news,al-jazeera-english,reuters,the-washington-post";
     final static String LANGUAGE_PARAM = "language";
     final static String COUNTRY_PARAM = "country";
+    final static String SOURCES_PARAM = "sources";
     final static String KEY_PARAM = "apiKey";
 
     /**
@@ -36,6 +38,7 @@ public class NetworkUtils {
                 .appendPath("v2")
                 .appendPath("top-headlines")
                 .appendQueryParameter(LANGUAGE_PARAM, language)
+                .appendQueryParameter(SOURCES_PARAM, sources)
                 .appendQueryParameter(KEY_PARAM, apiKey)
                 .build();
         URL url = null;

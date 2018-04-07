@@ -22,12 +22,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>{
 
     private List<Article> mArticles;
+    ArticleAdapterOnClickHandler mClickHandler;
 
-    public ArticleAdapter() {
-
+    public ArticleAdapter(ArticleAdapterOnClickHandler clickHandler) {
+        this.mClickHandler = clickHandler;
     }
 
     @NonNull
@@ -62,18 +66,32 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         notifyDataSetChanged();
     }
 
-    class ArticleViewHolder extends RecyclerView.ViewHolder {
+    interface ArticleAdapterOnClickHandler {
+        void onListItemClick (Article currentArticleObjectClicked);
+    }
+
+    class ArticleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
+        @BindView(R.id.iv_article)
         ImageView articleImageView;
+        @BindView(R.id.tv_title)
         TextView titleTextView;
+        @BindView(R.id.tv_name)
         TextView nameTextView;
+        @BindView(R.id.tv_date)
         TextView dateTextView;
 
         public ArticleViewHolder(View itemView) {
             super(itemView);
-            articleImageView = itemView.findViewById(R.id.iv_article);
-            titleTextView = itemView.findViewById(R.id.tv_title);
-            nameTextView = itemView.findViewById(R.id.tv_name);
-            dateTextView = itemView.findViewById(R.id.tv_date);
+            ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            int adapterPosition = getAdapterPosition();
+            Article currentArticleClicked = mArticles.get(adapterPosition);
+            mClickHandler.onListItemClick(currentArticleClicked);
         }
     }
 
