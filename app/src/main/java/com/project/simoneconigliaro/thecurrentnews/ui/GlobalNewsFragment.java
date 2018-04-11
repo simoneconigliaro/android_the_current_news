@@ -37,7 +37,7 @@ public class GlobalNewsFragment extends Fragment implements ArticleAdapter.Artic
 
     private ArticleAdapter mArticleAdapter;
 
-    private final static String URL_KEY = "url";
+    private final static String ARTICLE_KEY = "article";
 
     public GlobalNewsFragment() {
         // Required empty public constructor
@@ -57,20 +57,15 @@ public class GlobalNewsFragment extends Fragment implements ArticleAdapter.Artic
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         initViews();
         new FetchArticlesTask(mArticleAdapter).execute();
     }
 
     @Override
     public void onListItemClick(Article currentArticleObjectClicked) {
-
         Intent intent = new Intent(getContext(), DetailArticleActivity.class);
-
-        String urlArticle = currentArticleObjectClicked.getUrl();
-        intent.putExtra(URL_KEY, urlArticle);
+        intent.putExtra(ARTICLE_KEY, currentArticleObjectClicked);
         startActivity(intent);
-
     }
 
     public void initViews(){

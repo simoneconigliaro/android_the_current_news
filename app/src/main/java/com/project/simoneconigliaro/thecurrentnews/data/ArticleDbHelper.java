@@ -19,7 +19,7 @@ public class ArticleDbHelper extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
         final String CREATE_TABLE = "CREATE TABLE " + ArticleEntry.TABLE_NAME + " (" +
-                ArticleEntry._ID                + "INTEGER PRIMARY KEY, " +
+                ArticleEntry._ID                + " INTEGER PRIMARY KEY, " +
                 ArticleEntry.COLUMN_TITLE       + " TEXT NOT NULL, " +
                 ArticleEntry.COLUMN_NAME        + " TEXT NOT NULL, " +
                 ArticleEntry.COLUMN_DATE        + " TEXT NOT NULL, " +

@@ -21,6 +21,11 @@
         <activity android:name=".ui.DetailArticleActivity"
             android:parentActivityName=".ui.MainActivity"
             android:configChanges="orientation|screenSize"></activity>
+
+        <provider
+            android:name="com.project.simoneconigliaro.thecurrentnews.data.ArticleContentProvider"
+            android:authorities="com.project.simoneconigliaro.thecurrentnews"
+            android:exported="false"/>
     </application>
 
 </manifest>

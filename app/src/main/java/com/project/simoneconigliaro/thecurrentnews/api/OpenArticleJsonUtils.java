@@ -34,17 +34,14 @@ public class OpenArticleJsonUtils {
                 JSONObject currentArticle = results.getJSONObject(i);
 
                 JSONObject source = currentArticle.getJSONObject("source");
-                String id = source.optString("id");
-                String name = source.optString("name");
 
-                String author = currentArticle.getString("author");
+                String name = source.optString("name");
                 String title = currentArticle.getString("title");
-                String description = currentArticle.getString("description");
                 String url = currentArticle.getString("url");
                 String urlToImage = currentArticle.getString("urlToImage");
                 String publishedAt = currentArticle.getString("publishedAt");
 
-                articles.add(new Article(id, name, author, title, description, url, urlToImage, publishedAt));
+                articles.add(new Article(name, title,  url, urlToImage, publishedAt));
             }
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Problem parsing the movie JSON results", e);

@@ -13,7 +13,8 @@
         android:layout_gravity="bottom"
         android:background="@color/colorPrimary"
         app:layout_scrollFlags="scroll|enterAlways"
-        app:popupTheme="@style/AppTheme"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
         android:elevation="@dimen/toolbar_elevation">
 
         <ImageView
