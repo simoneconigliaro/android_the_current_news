@@ -13,46 +13,59 @@
         android:paddingEnd="16dp"
         android:paddingRight="16dp">
 
-    <ImageView
-        android:id="@+id/iv_article"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:scaleType="centerCrop" />
+        <ImageView
+            android:id="@+id/iv_article"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:scaleType="centerCrop" />
 
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_toEndOf="@id/iv_article"
-        android:layout_toRightOf="@id/iv_article"
-        android:text="Lorem Ipsum is simply dummy aaaaaaaaaaaaaaaaaaaaaaaaaatext of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the s PageMaker including versions of Lorem Ipsum."
-        android:textColor="@android:color/black"
-        android:textSize="14sp" />
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_toEndOf="@id/iv_article"
+            android:layout_toRightOf="@id/iv_article"
+            android:layout_toStartOf="@id/iv_bookmark"
+            android:layout_toLeftOf="@id/iv_bookmark"
+            android:text="Lorem Ipsum is simply dummy of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the s PageMaker including versions of Lorem Ipsum."
+            android:textColor="@android:color/black"
+            android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/tv_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/iv_article"
-        android:layout_toRightOf="@id/iv_article"
-        android:text="name"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@id/tv_title"
-        android:textSize="12sp" />
+        <ImageView
+            android:id="@+id/iv_bookmark"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/ic_bookmark_border_blue_24dp"
+            android:scaleType="centerCrop" />
 
-    <TextView
-        android:id="@+id/tv_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/tv_title"
-        android:text=" 12-12-1222"
-        android:layout_alignParentBottom="true"
-        android:textSize="12sp" />
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/iv_article"
+            android:layout_toRightOf="@id/iv_article"
+            android:text="name"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@id/tv_title"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/tv_title"
+            android:text=" 12-12-1222"
+            android:layout_alignParentBottom="true"
+            android:textSize="12sp" />
 
     </RelativeLayout>
 

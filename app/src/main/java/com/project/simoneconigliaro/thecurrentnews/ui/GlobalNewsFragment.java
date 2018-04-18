@@ -72,7 +72,7 @@ public class GlobalNewsFragment extends Fragment implements ArticleAdapter.Artic
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(layoutManager);
-        mArticleAdapter = new ArticleAdapter(this);
+        mArticleAdapter = new ArticleAdapter(this, getContext());
         mRecyclerView.setAdapter(mArticleAdapter);
     }
 }
