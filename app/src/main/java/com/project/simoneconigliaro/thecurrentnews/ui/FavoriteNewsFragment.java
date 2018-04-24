@@ -2,6 +2,7 @@ package com.project.simoneconigliaro.thecurrentnews.ui;
 
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -26,6 +27,8 @@ public class FavoriteNewsFragment extends Fragment {
     @BindView(R.id.recycler_view_favorite)
     RecyclerView mRecyclerView;
 
+    private Parcelable mLayoutState;
+
     public static final int ID_FAVORITES_LOADER = 11;
 
     public FavoriteNewsFragment() {
@@ -44,6 +47,9 @@ public class FavoriteNewsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if(savedInstanceState != null){
+            mLayoutState = savedInstanceState.getParcelable("LAYOUT_STATE");
+        }
         initViews();
     }
 
@@ -51,9 +57,21 @@ public class FavoriteNewsFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(layoutManager);
-        FavoritesAdapter favoritesAdapter = new FavoritesAdapter();
+        FavoritesAdapter favoritesAdapter = new FavoritesAdapter(getContext());
         mRecyclerView.setAdapter(favoritesAdapter);
         getActivity().getSupportLoaderManager().initLoader(
                 ID_FAVORITES_LOADER, null, new FavoriteCursorLoader(getContext(), favoritesAdapter));
+        if(mLayoutState!= null) {
+            mRecyclerView.getLayoutManager().onRestoreInstanceState(mLayoutState);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if(mRecyclerView != null) {
+            mLayoutState = mRecyclerView.getLayoutManager().onSaveInstanceState();
+            outState.putParcelable("LAYOUT_STATE", mLayoutState);
+        }
     }
 }

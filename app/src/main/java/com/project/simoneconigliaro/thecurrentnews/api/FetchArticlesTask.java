@@ -1,6 +1,8 @@
 package com.project.simoneconigliaro.thecurrentnews.api;
 
 import android.os.AsyncTask;
+import android.os.Parcelable;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.project.simoneconigliaro.thecurrentnews.data.Article;
@@ -15,17 +17,42 @@ public class FetchArticlesTask extends AsyncTask<String, Void, List<Article>> {
     static final String LOG_TAG = FetchArticlesTask.class.getSimpleName();
 
     ArticleAdapter mArticleAdapter;
+    String mCategoryArticle;
+    String mCountry;
+    RecyclerView mRecyclerView;
+    Parcelable mLayoutState;
 
-    public FetchArticlesTask(ArticleAdapter mArticleAdapter) {
-        this.mArticleAdapter = mArticleAdapter;
+    public FetchArticlesTask(ArticleAdapter articleAdapter, RecyclerView recyclerView, Parcelable layoutState, String categoryArticle) {
+        this.mArticleAdapter = articleAdapter;
+        this.mCategoryArticle = categoryArticle;
+        this.mRecyclerView = recyclerView;
+        this.mLayoutState = layoutState;
+    }
+
+    public FetchArticlesTask(ArticleAdapter articleAdapter,RecyclerView recyclerView, Parcelable layoutState, String categoryArticle, String country) {
+        this.mArticleAdapter = articleAdapter;
+        this.mCategoryArticle = categoryArticle;
+        this.mCountry = country;
+        this.mRecyclerView = recyclerView;
+        this.mLayoutState = layoutState;
     }
 
     @Override
     protected List<Article> doInBackground(String... strings) {
 
-        URL globalNewsURL = NetworkUtils.buildGlobalNewsURL();
+        URL newsURL = null;
+
+        switch (mCategoryArticle){
+            case "GLOBAL":
+                newsURL = NetworkUtils.buildGlobalNewsURL();
+                break;
+            case "LOCAL":
+                newsURL = NetworkUtils.buildLocalNewsURL(mCountry);
+                break;
+        }
+
         try {
-            String jsonArticlesResponse = NetworkUtils.getResponseFromHttpUrl(globalNewsURL);
+            String jsonArticlesResponse = NetworkUtils.getResponseFromHttpUrl(newsURL);
             List<Article> articles = OpenArticleJsonUtils.getArticlesFromJson(jsonArticlesResponse);
             return articles;
 
@@ -36,23 +63,14 @@ public class FetchArticlesTask extends AsyncTask<String, Void, List<Article>> {
 
     }
 
+
+
     @Override
     protected void onPostExecute(List<Article> articles) {
         super.onPostExecute(articles);
-
         mArticleAdapter.setArticlesData(articles);
-
-
-        /*for(int i = 0; i<articles.size(); i++){
-            Log.d(LOG_TAG, i + "  " + articles.get(i).getId());
-            Log.d(LOG_TAG, i + "  " + articles.get(i).getName());
-            Log.d(LOG_TAG, i + "  " + articles.get(i).getAuthor());
-            Log.d(LOG_TAG, i + "  " + articles.get(i).getTitle());
-            Log.d(LOG_TAG, i + "  " + articles.get(i).getDescription());
-            Log.d(LOG_TAG, i + "  " + articles.get(i).getUrl());
-            Log.d(LOG_TAG, i + "  " + articles.get(i).getUrlToImage());
-            Log.d(LOG_TAG, i + "  " + articles.get(i).getPublishedAt());
-        }*/
-
+        if (mLayoutState != null){
+            mRecyclerView.getLayoutManager().onRestoreInstanceState(mLayoutState);
+        }
     }
 }

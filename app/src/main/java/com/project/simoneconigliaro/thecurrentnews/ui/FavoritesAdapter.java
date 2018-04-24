@@ -10,10 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.project.simoneconigliaro.thecurrentnews.R;
 import com.project.simoneconigliaro.thecurrentnews.data.Article;
 import com.project.simoneconigliaro.thecurrentnews.data.ArticleContract;
+import com.project.simoneconigliaro.thecurrentnews.data.ArticleDbUtils;
 import com.project.simoneconigliaro.thecurrentnews.data.DateUtils;
 import com.squareup.picasso.Picasso;
 
@@ -24,14 +26,14 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
     private final static String ARTICLE_KEY = "article";
     private Cursor cursor;
+    private Context mContext;
+    private final static String ARTICLE_REMOVED = "Article removed";
 
-    public FavoritesAdapter() {
+    public FavoritesAdapter(Context context) {
+        this.mContext = context;
     }
 
     public void swapCursor(Cursor newCursor) {
-        if (cursor != null) {
-            cursor.close();
-        }
         cursor = newCursor;
         if (newCursor != null) {
             this.notifyDataSetChanged();
@@ -48,6 +50,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
         TextView nameTextView;
         @BindView(R.id.tv_date)
         TextView dateTextView;
+        @BindView(R.id.iv_bookmark)
+        ImageView bookmarkImageView;
 
 
         public FavoriteAdapterViewHolder(View itemView) {
@@ -90,18 +94,31 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FavoriteAdapterViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final FavoriteAdapterViewHolder holder, int position) {
 
         cursor.moveToPosition(position);
+        final String idArticle = cursor.getString(cursor.getColumnIndex(ArticleContract.ArticleEntry._ID));
         String name = cursor.getString(cursor.getColumnIndex(ArticleContract.ArticleEntry.COLUMN_NAME));
         String title = cursor.getString(cursor.getColumnIndex(ArticleContract.ArticleEntry.COLUMN_TITLE));
         String urlToImage = cursor.getString(cursor.getColumnIndex(ArticleContract.ArticleEntry.COLUMN_URL_IMAGE));
         String publishedAt = cursor.getString(cursor.getColumnIndex(ArticleContract.ArticleEntry.COLUMN_DATE));
 
+
         holder.titleTextView.setText(title);
         holder.nameTextView.setText(name);
         holder.dateTextView.setText(DateUtils.dateFormatter(publishedAt));
         Picasso.get().load(urlToImage).error(R.drawable.placeholder_error).into(holder.articleImageView);
+        holder.bookmarkImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_bookmark_blue_24dp));
+
+        holder.bookmarkImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ArticleDbUtils.deleteFavoriteArticle(mContext, idArticle);
+                holder.bookmarkImageView.setImageDrawable(view.getContext().getResources().getDrawable(R.drawable.ic_bookmark_border_blue_24dp));
+                Toast.makeText(mContext, ARTICLE_REMOVED, Toast.LENGTH_SHORT).show();
+                notifyDataSetChanged();
+            }
+        });
     }
 
     @Override

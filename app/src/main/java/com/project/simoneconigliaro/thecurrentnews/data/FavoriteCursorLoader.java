@@ -26,6 +26,7 @@ public class FavoriteCursorLoader implements LoaderManager.LoaderCallbacks<Curso
         switch (loaderId) {
             case ID_FAVORITES_LOADER:
                 String[] projection = {
+                        ArticleContract.ArticleEntry._ID,
                         ArticleContract.ArticleEntry.COLUMN_TITLE,
                         ArticleContract.ArticleEntry.COLUMN_NAME,
                         ArticleContract.ArticleEntry.COLUMN_DATE,

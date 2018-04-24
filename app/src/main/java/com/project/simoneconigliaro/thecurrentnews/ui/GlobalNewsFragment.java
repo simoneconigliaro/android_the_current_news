@@ -1,8 +1,10 @@
 package com.project.simoneconigliaro.thecurrentnews.ui;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -36,8 +38,10 @@ public class GlobalNewsFragment extends Fragment implements ArticleAdapter.Artic
     RecyclerView mRecyclerView;
 
     private ArticleAdapter mArticleAdapter;
-
     private final static String ARTICLE_KEY = "article";
+
+    private Parcelable mLayoutState;
+
 
     public GlobalNewsFragment() {
         // Required empty public constructor
@@ -50,15 +54,17 @@ public class GlobalNewsFragment extends Fragment implements ArticleAdapter.Artic
         // Inflate the layout for this fragment
         ButterKnife.bind(this, rootView);
         return rootView;
-
-
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        if(savedInstanceState != null){
+            mLayoutState = savedInstanceState.getParcelable("LAYOUT_STATE");
+        }
         initViews();
-        new FetchArticlesTask(mArticleAdapter).execute();
+        new FetchArticlesTask(mArticleAdapter, mRecyclerView, mLayoutState, "GLOBAL").execute();
     }
 
     @Override
@@ -74,5 +80,27 @@ public class GlobalNewsFragment extends Fragment implements ArticleAdapter.Artic
         mRecyclerView.setLayoutManager(layoutManager);
         mArticleAdapter = new ArticleAdapter(this, getContext());
         mRecyclerView.setAdapter(mArticleAdapter);
+
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser) {
+            if(mArticleAdapter != null) {
+                mArticleAdapter.notifyDataSetChanged();
+            }
+        }
+
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if(mRecyclerView != null) {
+            mLayoutState = mRecyclerView.getLayoutManager().onSaveInstanceState();
+            outState.putParcelable("LAYOUT_STATE", mLayoutState);
+        }
+
     }
 }
