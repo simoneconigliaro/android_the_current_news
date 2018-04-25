@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
+import com.project.simoneconigliaro.thecurrentnews.widget.NewsWidgetProvider;
+
 public class ArticleDbUtils {
 
     public static String checkIfArticleIsAlreadyStored(Context context, Article article){
@@ -32,12 +34,14 @@ public class ArticleDbUtils {
         contentValues.put(ArticleContract.ArticleEntry.COLUMN_URL, currentArticle.getUrl());
         contentValues.put(ArticleContract.ArticleEntry.COLUMN_URL_IMAGE, currentArticle.getUrlToImage());
         context.getContentResolver().insert(ArticleContract.ArticleEntry.CONTENT_URI, contentValues);
+        NewsWidgetProvider.sendRefreshBroadcast(context);
     }
 
     public static void deleteFavoriteArticle(Context context, String idArticle){
         Uri uri = ArticleContract.ArticleEntry.CONTENT_URI;
         uri = uri.buildUpon().appendPath(idArticle).build();
         context.getContentResolver().delete(uri, null, null);
+        NewsWidgetProvider.sendRefreshBroadcast(context);
     }
 
 

@@ -28,6 +28,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.project.simoneconigliaro.thecurrentnews.BuildConfig;
 import com.project.simoneconigliaro.thecurrentnews.R;
+import com.project.simoneconigliaro.thecurrentnews.widget.NewsWidgetProvider;
 
 
 import java.io.IOException;
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
+        NewsWidgetProvider.sendRefreshBroadcast(getApplicationContext());
 
     }
 

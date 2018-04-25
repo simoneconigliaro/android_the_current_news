@@ -19,6 +19,7 @@ import com.project.simoneconigliaro.thecurrentnews.R;
 import com.project.simoneconigliaro.thecurrentnews.data.Article;
 import com.project.simoneconigliaro.thecurrentnews.data.ArticleContract;
 import com.project.simoneconigliaro.thecurrentnews.data.ArticleDbUtils;
+import com.project.simoneconigliaro.thecurrentnews.widget.NewsWidgetProvider;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

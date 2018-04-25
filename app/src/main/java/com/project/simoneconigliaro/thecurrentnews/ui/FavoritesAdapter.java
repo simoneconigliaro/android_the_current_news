@@ -17,6 +17,7 @@ import com.project.simoneconigliaro.thecurrentnews.data.Article;
 import com.project.simoneconigliaro.thecurrentnews.data.ArticleContract;
 import com.project.simoneconigliaro.thecurrentnews.data.ArticleDbUtils;
 import com.project.simoneconigliaro.thecurrentnews.data.DateUtils;
+import com.project.simoneconigliaro.thecurrentnews.widget.NewsWidgetProvider;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -128,4 +129,5 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
         }
         return cursor.getCount();
     }
+
 }

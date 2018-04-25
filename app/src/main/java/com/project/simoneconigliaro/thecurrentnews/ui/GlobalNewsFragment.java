@@ -80,7 +80,6 @@ public class GlobalNewsFragment extends Fragment implements ArticleAdapter.Artic
         mRecyclerView.setLayoutManager(layoutManager);
         mArticleAdapter = new ArticleAdapter(this, getContext());
         mRecyclerView.setAdapter(mArticleAdapter);
-
     }
 
     @Override
@@ -91,7 +90,6 @@ public class GlobalNewsFragment extends Fragment implements ArticleAdapter.Artic
                 mArticleAdapter.notifyDataSetChanged();
             }
         }
-
     }
 
     @Override
@@ -101,6 +99,5 @@ public class GlobalNewsFragment extends Fragment implements ArticleAdapter.Artic
             mLayoutState = mRecyclerView.getLayoutManager().onSaveInstanceState();
             outState.putParcelable("LAYOUT_STATE", mLayoutState);
         }
-
     }
 }
