@@ -1,15 +1,27 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="@dimen/widget_margin"
-    android:background="#bbDEDFDE">
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_header_widget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:fontFamily="sans-serif-light"
+        android:padding="8dp"
+        android:text="@string/favorite_news"
+        android:textColor="@android:color/white"
+        android:textSize="24sp" />
 
     <ListView android:id="@+id/widget_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:dividerHeight="1dp"
-        android:divider="#eeeeee"
+        android:divider="@color/divider"
         tools:listitem="@layout/widget_list_item" />
 
-</RelativeLayout>
+</LinearLayout>
