@@ -17,6 +17,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -24,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -37,6 +39,7 @@ import com.project.simoneconigliaro.thecurrentnews.BuildConfig;
 import com.project.simoneconigliaro.thecurrentnews.R;
 import com.project.simoneconigliaro.thecurrentnews.api.FetchArticlesTask;
 import com.project.simoneconigliaro.thecurrentnews.data.Article;
+import com.project.simoneconigliaro.thecurrentnews.utils.InternetUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -56,12 +59,20 @@ public class LocalNewsFragment extends Fragment implements ArticleAdapter.Articl
     @BindView(R.id.recycler_view_local)
     RecyclerView mRecyclerView;
 
+    @BindView(R.id.srl_local_news)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+
+    @BindView(R.id.tv_no_country)
+    TextView noCountryTextView;
+
     private ArticleAdapter mArticleAdapter;
 
     private final static String ARTICLE_KEY = "article";
 
     private static final String TAG = LocalNewsFragment.class.getSimpleName();
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
+    private final static String LOCAL = "Local";
+    private final static String LAYOUT_STATE_KEY = "layout_state";
 
     private FusedLocationProviderClient mFusedLocationClient;
     protected Location mLastLocation;
@@ -87,8 +98,21 @@ public class LocalNewsFragment extends Fragment implements ArticleAdapter.Articl
         super.onViewCreated(view, savedInstanceState);
 
         if(savedInstanceState != null){
-            mLayoutState = savedInstanceState.getParcelable("LAYOUT_STATE");
+            mLayoutState = savedInstanceState.getParcelable(LAYOUT_STATE_KEY);
         }
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                boolean isInternetAvailable = InternetUtils.checkConnection(getContext());
+                if (isInternetAvailable) {
+                    getLastLocation();
+                }
+                mSwipeRefreshLayout.setRefreshing(false);
+
+
+            }
+        });
 
         initViews();
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
@@ -119,7 +143,7 @@ public class LocalNewsFragment extends Fragment implements ArticleAdapter.Articl
         super.onSaveInstanceState(outState);
         if(mRecyclerView != null) {
             mLayoutState = mRecyclerView.getLayoutManager().onSaveInstanceState();
-            outState.putParcelable("LAYOUT_STATE", mLayoutState);
+            outState.putParcelable(LAYOUT_STATE_KEY, mLayoutState);
         }
     }
 
@@ -137,7 +161,7 @@ public class LocalNewsFragment extends Fragment implements ArticleAdapter.Articl
                             try {
                                 String country = getCountryFromCoordinates(lat, lon);
                                 mCountry = countryToISO(country);
-                                new FetchArticlesTask(mArticleAdapter, mRecyclerView, mLayoutState, "LOCAL", mCountry).execute();
+                                new FetchArticlesTask(mArticleAdapter, mRecyclerView, mLayoutState, LOCAL, mCountry, noCountryTextView, getContext()).execute();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -168,14 +192,11 @@ public class LocalNewsFragment extends Fragment implements ArticleAdapter.Articl
 
     private void requestPermissions() {
         boolean shouldProvideRationale =
-                ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                        Manifest.permission.ACCESS_COARSE_LOCATION);
+                shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION);
 
         // Provide an additional rationale to the user. This would happen if the user denied the
         // request previously, but didn't check the "Don't ask again" checkbox.
         if (shouldProvideRationale) {
-            Log.i(TAG, "Displaying permission rationale to provide additional context.");
-
             showSnackbar(R.string.permission_rationale, android.R.string.ok,
                     new View.OnClickListener() {
                         @Override
@@ -201,20 +222,17 @@ public class LocalNewsFragment extends Fragment implements ArticleAdapter.Articl
     }
 
     private void startLocationPermissionRequest() {
-        ActivityCompat.requestPermissions(getActivity(),
-                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+        requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                 REQUEST_PERMISSIONS_REQUEST_CODE);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        Log.i(TAG, "onRequestPermissionResult");
         if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
             if (grantResults.length <= 0) {
                 // If user interaction was interrupted, the permission request is cancelled and you
                 // receive empty arrays.
-                Log.i(TAG, "User interaction was cancelled.");
             } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission granted.
                 getLastLocation();

@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.project.simoneconigliaro.thecurrentnews.R;
 import com.project.simoneconigliaro.thecurrentnews.data.FavoriteCursorLoader;
@@ -27,9 +28,14 @@ public class FavoriteNewsFragment extends Fragment {
     @BindView(R.id.recycler_view_favorite)
     RecyclerView mRecyclerView;
 
+    @BindView(R.id.tv_no_favorites)
+    TextView noFavoritesTextView;
+
     private Parcelable mLayoutState;
 
     public static final int ID_FAVORITES_LOADER = 11;
+
+    private static final String LAYOUT_STATE_KEY = "layout_state";
 
     public FavoriteNewsFragment() {
         // Required empty public constructor
@@ -48,9 +54,11 @@ public class FavoriteNewsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if(savedInstanceState != null){
-            mLayoutState = savedInstanceState.getParcelable("LAYOUT_STATE");
+            mLayoutState = savedInstanceState.getParcelable(LAYOUT_STATE_KEY);
         }
         initViews();
+
+
     }
 
     public void initViews(){
@@ -60,10 +68,11 @@ public class FavoriteNewsFragment extends Fragment {
         FavoritesAdapter favoritesAdapter = new FavoritesAdapter(getContext());
         mRecyclerView.setAdapter(favoritesAdapter);
         getActivity().getSupportLoaderManager().initLoader(
-                ID_FAVORITES_LOADER, null, new FavoriteCursorLoader(getContext(), favoritesAdapter));
+                ID_FAVORITES_LOADER, null, new FavoriteCursorLoader(getContext(), favoritesAdapter, noFavoritesTextView));
         if(mLayoutState!= null) {
             mRecyclerView.getLayoutManager().onRestoreInstanceState(mLayoutState);
         }
+
     }
 
     @Override
@@ -71,7 +80,7 @@ public class FavoriteNewsFragment extends Fragment {
         super.onSaveInstanceState(outState);
         if(mRecyclerView != null) {
             mLayoutState = mRecyclerView.getLayoutManager().onSaveInstanceState();
-            outState.putParcelable("LAYOUT_STATE", mLayoutState);
+            outState.putParcelable(LAYOUT_STATE_KEY, mLayoutState);
         }
     }
 }

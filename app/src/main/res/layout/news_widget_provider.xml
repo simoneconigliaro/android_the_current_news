@@ -1,27 +1,41 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:padding="@dimen/widget_margin"
-    android:background="@android:color/white"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_header_widget"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:fontFamily="sans-serif-light"
-        android:padding="8dp"
-        android:text="@string/favorite_news"
-        android:textColor="@android:color/white"
-        android:textSize="24sp" />
-
-    <ListView android:id="@+id/widget_list_view"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:dividerHeight="1dp"
-        android:divider="@color/divider"
-        tools:listitem="@layout/widget_list_item" />
+        android:background="@android:color/white"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/tv_header_widget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:padding="8dp"
+            android:text="@string/favorite_news"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <ListView
+            android:id="@+id/widget_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/divider"
+            android:dividerHeight="1dp"
+            tools:listitem="@layout/widget_list_item" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_add_favorites"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/add_favorite"
+        android:textSize="12sp"
+        android:visibility="gone" />
+
+</FrameLayout>

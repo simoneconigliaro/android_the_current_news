@@ -1,4 +1,4 @@
-package com.project.simoneconigliaro.thecurrentnews.data;
+package com.project.simoneconigliaro.thecurrentnews.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

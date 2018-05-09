@@ -17,7 +17,6 @@ import java.util.Scanner;
  */
 public class NetworkUtils {
 
-    private static String LOG_TAG = NetworkUtils.class.getSimpleName();
     final static String apiKey = BuildConfig.NEWS_API_KEY;
     final static String language = "en";
     final static String sources = "the-new-york-times,bbc-news,al-jazeera-english,reuters,the-washington-post";
@@ -25,13 +24,14 @@ public class NetworkUtils {
     final static String COUNTRY_PARAM = "country";
     final static String SOURCES_PARAM = "sources";
     final static String KEY_PARAM = "apiKey";
+    private static String LOG_TAG = NetworkUtils.class.getSimpleName();
 
     /**
      * Builds the url to get the global news from the server.
      *
      * @return the url used to get the data from the server.
      */
-    public static URL buildGlobalNewsURL(){
+    public static URL buildGlobalNewsURL() {
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("http")
                 .authority("newsapi.org")
@@ -57,7 +57,7 @@ public class NetworkUtils {
      * @param country used to get news from a specific country.
      * @return the url used to get the data from the server.
      */
-    public static URL buildLocalNewsURL(String country){
+    public static URL buildLocalNewsURL(String country) {
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("http")
                 .authority("newsapi.org")
@@ -84,7 +84,7 @@ public class NetworkUtils {
      * @return The contents of the HTTP response.
      * @throws IOException Related to network and stream reading
      */
-    public static String getResponseFromHttpUrl(URL url) throws IOException{
+    public static String getResponseFromHttpUrl(URL url) throws IOException {
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {
             InputStream response = urlConnection.getInputStream();
@@ -105,8 +105,4 @@ public class NetworkUtils {
             urlConnection.disconnect();
         }
     }
-
-
-
-
 }

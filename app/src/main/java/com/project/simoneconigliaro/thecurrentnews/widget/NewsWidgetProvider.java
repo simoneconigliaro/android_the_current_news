@@ -6,10 +6,13 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v4.app.TaskStackBuilder;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import com.project.simoneconigliaro.thecurrentnews.R;
+import com.project.simoneconigliaro.thecurrentnews.data.ArticleContract;
 import com.project.simoneconigliaro.thecurrentnews.ui.DetailArticleActivity;
 import com.project.simoneconigliaro.thecurrentnews.ui.MainActivity;
 
@@ -18,24 +21,24 @@ import com.project.simoneconigliaro.thecurrentnews.ui.MainActivity;
  */
 public class NewsWidgetProvider extends AppWidgetProvider {
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId) {
-
-        // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.news_widget_provider);
-
-        Intent intent = new Intent(context, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-
-
-        // Instruct the widget manager to update the widget
-        appWidgetManager.updateAppWidget(appWidgetId, views);
-    }
-
     public static void sendRefreshBroadcast(Context context) {
         Intent intent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
         intent.setComponent(new ComponentName(context, NewsWidgetProvider.class));
         context.sendBroadcast(intent);
+    }
+
+    public static boolean checkFavorites(Context context){
+        Cursor cursor = context.getContentResolver().query(ArticleContract.ArticleEntry.CONTENT_URI,
+                null,
+                null,
+                null,
+                null);
+
+        if(cursor.getCount() == 0){
+            return false;
+        }
+        cursor.close();
+        return true;
     }
 
     @Override
@@ -44,6 +47,16 @@ public class NewsWidgetProvider extends AppWidgetProvider {
         for (int appWidgetId : appWidgetIds) {
 
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.news_widget_provider);
+
+            if (checkFavorites(context)){
+                remoteViews.setViewVisibility(R.id.tv_add_favorites, View.GONE);
+            } else {
+                remoteViews.setViewVisibility(R.id.tv_add_favorites, View.VISIBLE);
+            }
+
+            Intent configIntent = new Intent(context, MainActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, configIntent, 0);
+            remoteViews.setOnClickPendingIntent(R.id.tv_add_favorites, pendingIntent);
 
             Intent intent = new Intent(context, WidgetService.class);
             remoteViews.setRemoteAdapter(R.id.widget_list_view, intent);
@@ -54,9 +67,6 @@ public class NewsWidgetProvider extends AppWidgetProvider {
                     .addNextIntentWithParentStack(clickIntentTemplate)
                     .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
             remoteViews.setPendingIntentTemplate(R.id.widget_list_view, clickPendingIntentTemplate);
-
-
-
             appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
         }
     }
@@ -66,9 +76,11 @@ public class NewsWidgetProvider extends AppWidgetProvider {
         final String action = intent.getAction();
         if (action.equals(AppWidgetManager.ACTION_APPWIDGET_UPDATE)) {
             // refresh all your widgets
-            AppWidgetManager mgr = AppWidgetManager.getInstance(context);
-            ComponentName cn = new ComponentName(context, NewsWidgetProvider.class);
-            mgr.notifyAppWidgetViewDataChanged(mgr.getAppWidgetIds(cn), R.id.widget_list_view);
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+            ComponentName thisWidget = new ComponentName(context, NewsWidgetProvider.class);
+            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
+            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_list_view);
+            onUpdate(context, appWidgetManager, appWidgetIds);
         }
         super.onReceive(context, intent);
     }

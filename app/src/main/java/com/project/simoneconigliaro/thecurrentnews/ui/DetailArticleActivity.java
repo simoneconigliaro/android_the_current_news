@@ -5,17 +5,21 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.project.simoneconigliaro.thecurrentnews.R;
+import com.project.simoneconigliaro.thecurrentnews.analytics.Analytics;
 import com.project.simoneconigliaro.thecurrentnews.data.Article;
 import com.project.simoneconigliaro.thecurrentnews.data.ArticleContract;
 import com.project.simoneconigliaro.thecurrentnews.data.ArticleDbUtils;
@@ -30,6 +34,8 @@ public class DetailArticleActivity extends AppCompatActivity {
     WebView mWebView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.share_fab)
+    FloatingActionButton floatingActionButton;
 
     private Article mArticle;
     private String mIdArticle;
@@ -57,6 +63,19 @@ public class DetailArticleActivity extends AppCompatActivity {
                 mWebView.loadUrl(mArticle.getUrl());
             }
         }
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mArticle.getUrl() != null) {
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    i.setType("text/plain");
+                    i.putExtra(Intent.EXTRA_TEXT, mArticle.getUrl());
+                    startActivity(Intent.createChooser(i, getString(R.string.action_share)));
+                    Analytics.logEventShare(getApplicationContext(), mArticle);
+                }
+            }
+        });
     }
 
     @Override

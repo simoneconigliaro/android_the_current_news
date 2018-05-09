@@ -7,6 +7,8 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.PersistableBundle;
@@ -21,6 +23,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -28,6 +31,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.project.simoneconigliaro.thecurrentnews.BuildConfig;
 import com.project.simoneconigliaro.thecurrentnews.R;
+import com.project.simoneconigliaro.thecurrentnews.api.FetchArticlesTask;
+import com.project.simoneconigliaro.thecurrentnews.utils.InternetUtils;
 import com.project.simoneconigliaro.thecurrentnews.widget.NewsWidgetProvider;
 
 
@@ -43,10 +48,8 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String GLOBAL_NEWS = "Global";
-    public static final String LOCAL_NEWS = "Local";
-    public static final String FAVORITE_NEWS = "Favorite";
     private int positionTab;
+    private final static String POSITION_TAB_KEY = "position_tab";
 
     @BindView(R.id.view_pager)
     ViewPager viewPager;
@@ -61,20 +64,20 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         if (savedInstanceState != null){
-            savedInstanceState.getInt("POSITION_TAB");
-            Log.d("Main Activity", "position tab " + savedInstanceState.getInt("POSITION_TAB"));
-            viewPager.setCurrentItem(savedInstanceState.getInt("POSITION_TAB"));
+            savedInstanceState.getInt(POSITION_TAB_KEY);
+            viewPager.setCurrentItem(savedInstanceState.getInt(POSITION_TAB_KEY));
         }
 
         viewPager.setCurrentItem(positionTab);
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(new GlobalNewsFragment(), GLOBAL_NEWS);
-        viewPagerAdapter.addFragment(new LocalNewsFragment(), LOCAL_NEWS);
-        viewPagerAdapter.addFragment(new FavoriteNewsFragment(), FAVORITE_NEWS);
+        viewPagerAdapter.addFragment(new GlobalNewsFragment(), getString(R.string.global));
+        viewPagerAdapter.addFragment(new LocalNewsFragment(), getString(R.string.local));
+        viewPagerAdapter.addFragment(new FavoriteNewsFragment(), getString(R.string.favorite));
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
-        NewsWidgetProvider.sendRefreshBroadcast(getApplicationContext());
+        NewsWidgetProvider.sendRefreshBroadcast(this);
+        InternetUtils.checkConnection(this);
 
     }
 
@@ -82,7 +85,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         positionTab = viewPager.getCurrentItem();
-        outState.putInt("POSITION_TAB", viewPager.getCurrentItem());
+        outState.putInt(POSITION_TAB_KEY, viewPager.getCurrentItem());
     }
+
+
 
 }

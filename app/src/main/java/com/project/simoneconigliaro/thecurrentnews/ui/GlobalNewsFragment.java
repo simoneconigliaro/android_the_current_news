@@ -3,16 +3,20 @@ package com.project.simoneconigliaro.thecurrentnews.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.project.simoneconigliaro.thecurrentnews.R;
@@ -20,6 +24,7 @@ import com.project.simoneconigliaro.thecurrentnews.api.FetchArticlesTask;
 import com.project.simoneconigliaro.thecurrentnews.api.NetworkUtils;
 import com.project.simoneconigliaro.thecurrentnews.api.OpenArticleJsonUtils;
 import com.project.simoneconigliaro.thecurrentnews.data.Article;
+import com.project.simoneconigliaro.thecurrentnews.utils.InternetUtils;
 
 import java.io.IOException;
 import java.net.URL;
@@ -37,8 +42,13 @@ public class GlobalNewsFragment extends Fragment implements ArticleAdapter.Artic
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
 
+    @BindView(R.id.srl_global_news)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+
     private ArticleAdapter mArticleAdapter;
     private final static String ARTICLE_KEY = "article";
+    private final static String LAYOUT_STATE_KEY = "layout_state";
+    private final static String GLOBAL = "Global";
 
     private Parcelable mLayoutState;
 
@@ -61,10 +71,22 @@ public class GlobalNewsFragment extends Fragment implements ArticleAdapter.Artic
         super.onViewCreated(view, savedInstanceState);
 
         if(savedInstanceState != null){
-            mLayoutState = savedInstanceState.getParcelable("LAYOUT_STATE");
+            mLayoutState = savedInstanceState.getParcelable(LAYOUT_STATE_KEY);
         }
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                boolean isInternetAvailable = InternetUtils.checkConnection(getContext());
+                if (isInternetAvailable) {
+                    new FetchArticlesTask(mArticleAdapter, mRecyclerView, mLayoutState, GLOBAL).execute();
+                }
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
         initViews();
-        new FetchArticlesTask(mArticleAdapter, mRecyclerView, mLayoutState, "GLOBAL").execute();
+
     }
 
     @Override
@@ -80,6 +102,7 @@ public class GlobalNewsFragment extends Fragment implements ArticleAdapter.Artic
         mRecyclerView.setLayoutManager(layoutManager);
         mArticleAdapter = new ArticleAdapter(this, getContext());
         mRecyclerView.setAdapter(mArticleAdapter);
+        new FetchArticlesTask(mArticleAdapter, mRecyclerView, mLayoutState, GLOBAL).execute();
     }
 
     @Override
@@ -97,7 +120,9 @@ public class GlobalNewsFragment extends Fragment implements ArticleAdapter.Artic
         super.onSaveInstanceState(outState);
         if(mRecyclerView != null) {
             mLayoutState = mRecyclerView.getLayoutManager().onSaveInstanceState();
-            outState.putParcelable("LAYOUT_STATE", mLayoutState);
+            outState.putParcelable(LAYOUT_STATE_KEY, mLayoutState);
         }
     }
+
+
 }

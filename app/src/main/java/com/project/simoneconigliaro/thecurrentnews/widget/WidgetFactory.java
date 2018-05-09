@@ -1,10 +1,13 @@
 package com.project.simoneconigliaro.thecurrentnews.widget;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Binder;
+import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -67,17 +70,8 @@ public class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
             return null;
         }
 
-        RemoteViews remoteViews = new RemoteViews(mContext.getPackageName(), R.layout.widget_list_item);
+        final RemoteViews remoteViews = new RemoteViews(mContext.getPackageName(), R.layout.widget_list_item);
         remoteViews.setTextViewText(R.id.tv_title_widget, mCursor.getString(mCursor.getColumnIndex(ArticleContract.ArticleEntry.COLUMN_TITLE)));
-
-        String urlToImage = mCursor.getString(mCursor.getColumnIndex(ArticleContract.ArticleEntry.COLUMN_URL_IMAGE));
-
-        try {
-            Bitmap bitmap = Picasso.get().load(urlToImage).get();
-            remoteViews.setImageViewBitmap(R.id.iv_article_widget, bitmap);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         String name = mCursor.getString(mCursor.getColumnIndex(ArticleContract.ArticleEntry.COLUMN_NAME));
         String title = mCursor.getString(mCursor.getColumnIndex(ArticleContract.ArticleEntry.COLUMN_TITLE));
@@ -112,4 +106,5 @@ public class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
     public boolean hasStableIds() {
         return true;
     }
+
 }

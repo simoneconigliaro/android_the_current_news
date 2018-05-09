@@ -1,12 +1,9 @@
 package com.project.simoneconigliaro.thecurrentnews.ui;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +15,7 @@ import com.project.simoneconigliaro.thecurrentnews.R;
 import com.project.simoneconigliaro.thecurrentnews.data.Article;
 import com.project.simoneconigliaro.thecurrentnews.data.ArticleContract;
 import com.project.simoneconigliaro.thecurrentnews.data.ArticleDbUtils;
-import com.project.simoneconigliaro.thecurrentnews.data.DateUtils;
-import com.project.simoneconigliaro.thecurrentnews.widget.NewsWidgetProvider;
+import com.project.simoneconigliaro.thecurrentnews.utils.DateUtils;
 import com.squareup.picasso.Picasso;
 import java.util.List;
 import butterknife.BindView;
@@ -30,7 +26,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     private List<Article> mArticles;
     private Context mContext;
     ArticleAdapterOnClickHandler mClickHandler;
-    private boolean mIsArticleSaved;
     private String mIdArticle;
 
     private final static String ARTICLE_SAVED = "Article saved";
@@ -124,22 +119,5 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             Article currentArticleClicked = mArticles.get(adapterPosition);
             mClickHandler.onListItemClick(currentArticleClicked);
         }
-    }
-
-    private String checkIfArticleIsAlreadyStored(Context context, Article article){
-        Cursor cursor = context.getContentResolver().query(ArticleContract.ArticleEntry.CONTENT_URI, null, null, null, null);
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-                String url = cursor.getString(cursor.getColumnIndexOrThrow(ArticleContract.ArticleEntry.COLUMN_URL));
-                if (url != null) {
-                    if (url.equals(article.getUrl())) {
-                        String idArticle = cursor.getString(cursor.getColumnIndexOrThrow(ArticleContract.ArticleEntry._ID));
-                        return idArticle;
-                    }
-                }
-            }
-            cursor.close();
-        }
-        return null;
     }
 }

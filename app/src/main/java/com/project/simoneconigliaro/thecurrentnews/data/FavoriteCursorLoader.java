@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.view.View;
+import android.widget.TextView;
+
 import com.project.simoneconigliaro.thecurrentnews.ui.FavoritesAdapter;
 
 import static com.project.simoneconigliaro.thecurrentnews.ui.FavoriteNewsFragment.ID_FAVORITES_LOADER;
@@ -14,11 +17,12 @@ public class FavoriteCursorLoader implements LoaderManager.LoaderCallbacks<Curso
 
     private Context context;
     private FavoritesAdapter favoritesAdapter;
+    private TextView noFavoritesTextView;
 
-    public FavoriteCursorLoader(Context context, FavoritesAdapter favoritesAdapter) {
+    public FavoriteCursorLoader(Context context, FavoritesAdapter favoritesAdapter, TextView noFavoriteTextView) {
         this.context = context;
         this.favoritesAdapter = favoritesAdapter;
-
+        this.noFavoritesTextView = noFavoriteTextView;
     }
 
     @Override
@@ -48,6 +52,12 @@ public class FavoriteCursorLoader implements LoaderManager.LoaderCallbacks<Curso
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         favoritesAdapter.swapCursor(cursor);
+
+        if(cursor.getCount() == 0){
+            noFavoritesTextView.setVisibility(View.VISIBLE);
+        } else {
+            noFavoritesTextView.setVisibility(View.GONE);
+        }
 
     }
 

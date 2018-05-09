@@ -1,26 +1,31 @@
 package com.project.simoneconigliaro.thecurrentnews.api;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-
+import android.view.View;
+import android.widget.TextView;
 import com.project.simoneconigliaro.thecurrentnews.data.Article;
 import com.project.simoneconigliaro.thecurrentnews.ui.ArticleAdapter;
-
+import com.project.simoneconigliaro.thecurrentnews.utils.InternetUtils;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
 public class FetchArticlesTask extends AsyncTask<String, Void, List<Article>> {
 
-    static final String LOG_TAG = FetchArticlesTask.class.getSimpleName();
-
     ArticleAdapter mArticleAdapter;
     String mCategoryArticle;
     String mCountry;
     RecyclerView mRecyclerView;
     Parcelable mLayoutState;
+    TextView noCountryTextView;
+    Context context;
+
+    private static final String GLOBAL = "Global";
+    private static final String LOCAL = "Local";
+
 
     public FetchArticlesTask(ArticleAdapter articleAdapter, RecyclerView recyclerView, Parcelable layoutState, String categoryArticle) {
         this.mArticleAdapter = articleAdapter;
@@ -29,12 +34,14 @@ public class FetchArticlesTask extends AsyncTask<String, Void, List<Article>> {
         this.mLayoutState = layoutState;
     }
 
-    public FetchArticlesTask(ArticleAdapter articleAdapter,RecyclerView recyclerView, Parcelable layoutState, String categoryArticle, String country) {
+    public FetchArticlesTask(ArticleAdapter articleAdapter,RecyclerView recyclerView, Parcelable layoutState, String categoryArticle, String country, TextView noCountryTextView, Context context) {
         this.mArticleAdapter = articleAdapter;
         this.mCategoryArticle = categoryArticle;
         this.mCountry = country;
         this.mRecyclerView = recyclerView;
         this.mLayoutState = layoutState;
+        this.noCountryTextView = noCountryTextView;
+        this.context = context;
     }
 
     @Override
@@ -43,10 +50,10 @@ public class FetchArticlesTask extends AsyncTask<String, Void, List<Article>> {
         URL newsURL = null;
 
         switch (mCategoryArticle){
-            case "GLOBAL":
+            case GLOBAL:
                 newsURL = NetworkUtils.buildGlobalNewsURL();
                 break;
-            case "LOCAL":
+            case LOCAL:
                 newsURL = NetworkUtils.buildLocalNewsURL(mCountry);
                 break;
         }
@@ -71,6 +78,14 @@ public class FetchArticlesTask extends AsyncTask<String, Void, List<Article>> {
         mArticleAdapter.setArticlesData(articles);
         if (mLayoutState != null){
             mRecyclerView.getLayoutManager().onRestoreInstanceState(mLayoutState);
+        }
+
+        if(mCategoryArticle == LOCAL && InternetUtils.checkConnection(context)) {
+            if (mArticleAdapter.getItemCount() == 0) {
+                noCountryTextView.setVisibility(View.VISIBLE);
+            } else {
+                noCountryTextView.setVisibility(View.GONE);
+            }
         }
     }
 }

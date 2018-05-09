@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "439349537835",
+    "firebase_url": "https://current-news-app.firebaseio.com",
+    "project_id": "current-news-app",
+    "storage_bucket": "current-news-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:439349537835:android:9a00c81621b3feb7",
+        "android_client_info": {
+          "package_name": "com.project.simoneconigliaro.thecurrentnews"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "439349537835-tacj923vsgfnd68aqn9r0a94v1ctljra.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_fvKACmNHmCcD2ZPKEeKUZdPUtYJyh5I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

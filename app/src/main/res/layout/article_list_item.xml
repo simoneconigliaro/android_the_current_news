@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:tool="http://schemas.android.com/tools">
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:id="@+id/relative_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="16dp"
-        android:paddingStart="16dp"
-        android:paddingLeft="16dp"
         android:paddingEnd="16dp"
-        android:paddingRight="16dp">
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp">
 
         <ImageView
             android:id="@+id/iv_article"
@@ -28,21 +28,21 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:layout_toEndOf="@id/iv_article"
+            android:layout_toLeftOf="@id/iv_bookmark"
             android:layout_toRightOf="@id/iv_article"
             android:layout_toStartOf="@id/iv_bookmark"
-            android:layout_toLeftOf="@id/iv_bookmark"
-            tool:text="@string/lorem_ipsum"
             android:textColor="@android:color/black"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            tool:text="@string/lorem_ipsum" />
 
         <ImageView
             android:id="@+id/iv_bookmark"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
             android:background="@drawable/ic_bookmark_border_blue_24dp"
             android:scaleType="centerCrop" />
 
@@ -50,23 +50,23 @@
             android:id="@+id/tv_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/iv_article"
-            android:layout_toRightOf="@id/iv_article"
-            android:text="name"
             android:layout_alignParentBottom="true"
             android:layout_below="@id/tv_title"
-            android:textSize="12sp" />
+            android:layout_toEndOf="@id/iv_article"
+            android:layout_toRightOf="@id/iv_article"
+            android:textSize="12sp"
+            tool:text="@string/name_author" />
 
         <TextView
             android:id="@+id/tv_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_below="@id/tv_title"
-            android:text=" 12-12-1222"
-            android:layout_alignParentBottom="true"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            tool:text="@string/date" />
 
     </RelativeLayout>
 
