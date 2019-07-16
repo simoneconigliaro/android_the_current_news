@@ -12,4 +12,4 @@
 - Google Analytics to collect and analyze app usage data.
 
 ## Getting Started
-In order to run the app you need a api key from News API which you can get <a href="https://newsapi.org/register" target="_blank">here</a> and set it in gradle.properties.
+In order to run the app you need an api key which you can get <a href="https://newsapi.org/register" target="_blank">here</a> and set it in gradle.properties.
