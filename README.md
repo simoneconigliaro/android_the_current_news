@@ -6,7 +6,7 @@
 -	It  contains a widget that displays the user’s favourite news. Clicking on one of them will open the app showing the article in detail.
 -	The app handles data persistence using a content provider and a sqlite database to store favorite news.
 ## Screenshot
-<img src="https://github.com/simoneconigliaro/android_movies/blob/master/Screenshot_1563304431.png" width="280"/> <img src="https://github.com/simoneconigliaro/android_movies/blob/master/Screenshot_1563304444.png" width="280"/> <img src="https://github.com/simoneconigliaro/android_movies/blob/master/Screenshot_1563304480.png" width="280"/>
+<img src="https://github.com/simoneconigliaro/android_the_current_news/blob/master/Screenshot_1563307305.png" width="280"/> <img src="https://github.com/simoneconigliaro/android_the_current_news/blob/master/Screenshot_1563307317.png" width="280"/> <img src="https://github.com/simoneconigliaro/android_the_current_news/blob/master/Screenshot_1563305958.png" width="280"/>
 ## Google Play Services
 - Google Location to get the current location used to retrieve local news.
 - Google Analytics to collect and analyze app usage data.
