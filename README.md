@@ -7,5 +7,9 @@
 -	The app handles data persistence using a content provider and a sqlite database to store favorite news.
 ## Screenshot
 <img src="https://github.com/simoneconigliaro/android_movies/blob/master/Screenshot_1563304431.png" width="280"/> <img src="https://github.com/simoneconigliaro/android_movies/blob/master/Screenshot_1563304444.png" width="280"/> <img src="https://github.com/simoneconigliaro/android_movies/blob/master/Screenshot_1563304480.png" width="280"/>
+## Google Play Services
+- Google Location to get the current location used to retrieve local news.
+- Google Analytics to collect and analyze app usage data.
+
 ## Getting Started
 The app uses The Movie Database API. You can get an API key signing up <a href="https://www.themoviedb.org/account/signup?language=en-EN" target="_blank">here</a> and set it here in gradle.properties
