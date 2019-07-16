@@ -12,4 +12,4 @@
 - Google Analytics to collect and analyze app usage data.
 
 ## Getting Started
-The app uses The Movie Database API. You can get an API key signing up <a href="https://www.themoviedb.org/account/signup?language=en-EN" target="_blank">here</a> and set it here in gradle.properties
+In order to run the app you need a api key from News API which you can get <a href="https://newsapi.org/register" target="_blank">here</a> and set it in gradle.properties.
