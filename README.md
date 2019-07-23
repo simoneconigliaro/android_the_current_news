@@ -1,4 +1,4 @@
-# Androd The Current News App
+# Android The Current News App
 - Capstone project for Udacity Android Developer Nanodegree
 ## Description
 -	The Current News app shows the latest global and local news (using Google Location) from <a href="https://newsapi.org" target="_blank">News API</a> and allows the user to save their favourite ones.
