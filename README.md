@@ -7,6 +7,11 @@ Capstone project for Udacity Android Developer Nanodegree
 -	The app handles data persistence using a content provider and a sqlite database to store favorite news.
 ## Screenshot
 <img src="https://github.com/simoneconigliaro/android_the_current_news/blob/master/Screenshot_1563307305.png" width="280"/> <img src="https://github.com/simoneconigliaro/android_the_current_news/blob/master/Screenshot_1563307317.png" width="280"/> <img src="https://github.com/simoneconigliaro/android_the_current_news/blob/master/Screenshot_1563305958.png" width="280"/>
+
+## Libraries
+- [Picasso](http://square.github.io/picasso/) for image loading
+- [Butterknife](https://jakewharton.github.io/butterknife/) for field and method binding for Android views
+
 ## Google Play Services
 - Google Location to get the current location used to retrieve local news.
 - Google Analytics to collect and analyze app usage data.
