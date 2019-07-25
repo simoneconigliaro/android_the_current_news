@@ -1,8 +1,10 @@
 # Android The Current News App
 Capstone project for Udacity Android Developer Nanodegree
 ## Description
--	The Current News app shows the latest global and local news (using Google Location) from <a href="https://newsapi.org" target="_blank">News API</a> and allows the user to save their favourite ones.
--	Clicking on one of the articles from the list will send the user to a detail screen showing the article more in depth.
+- The Current News app shows the latest global and local news (using Google Location) from <a href="https://newsapi.org" target="_blank">News API</a> and allows the user to save their favourite ones.
+
+- When the app is first launched it will show a viewpager with three tabs: list of global, local and user’s favourite news (if no favorites are present, the app will describe how to add them). Clicking on one of the bookmark icons will add the article associated with it to the favourite list.
+- Clicking on one of the article from the list will send the user to a detail screen showing the article more in depth. The user can also share an article clicking on share fab button.
 -	It  contains a widget that displays the user’s favourite news. Clicking on one of them will open the app showing the article in detail.
 -	The app handles data persistence using a content provider and a sqlite database to store favorite news.
 ## Screenshot
