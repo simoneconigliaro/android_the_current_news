@@ -8,7 +8,7 @@ Capstone project for Udacity Android Developer Nanodegree
 -	It  contains a widget that displays the user’s favourite news. Clicking on one of them will open the app showing the article in detail.
 -	The app handles data persistence using a content provider and a sqlite database to store favorite news.
 ## Screenshot
-<img src="https://github.com/simoneconigliaro/android_the_current_news/blob/master/Screenshot_1563307305.png" width="280"/> <img src="https://github.com/simoneconigliaro/android_the_current_news/blob/master/Screenshot_1563307317.png" width="280"/> <img src="https://github.com/simoneconigliaro/android_the_current_news/blob/master/Screenshot_1563305958.png" width="280"/>
+<img src="https://github.com/simoneconigliaro/android_the_current_news/blob/master/Screenshot_1.png" width="280"/> <img src="https://github.com/simoneconigliaro/android_the_current_news/blob/master/Screenshot_2.png" width="280"/> <img src="https://github.com/simoneconigliaro/android_the_current_news/blob/master/Screenshot_3.png" width="280"/>
 
 ## Libraries
 - [Picasso](http://square.github.io/picasso/) for image loading
